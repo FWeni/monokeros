@@ -11,16 +11,18 @@
 // import Menu from '@mui/material/Menu';
 import './App.css';
 
-import NavBar from "./components/header/navbar";
+// import NavBar from "./components/header/navbar";
+// import NavTabs from './components/header/navbarTabs';
+import Main from './components/body/main';
+
 
 
 function App() {
+
     return (
-      <NavBar>
-        {/* <Button>
-          Login
-        </Button> */}
-      </NavBar>
+      <>
+        <Main></Main>
+      </>
     );
 }
 export default App

@@ -12,8 +12,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 
-import NavTabs from './navbarTabs';
-// import MMIcon from '../../MMIcon.png';
+// import Slides from '../body/picSlides';
+import HomePage from '../../pages/tabs/homePage';
+
 
 
 import { ethers } from 'ethers';
@@ -28,11 +29,12 @@ function NavBar() {
     const { ethereum } = window;
     const provider = new ethers.BrowserProvider(window.ethereum);
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(true);
+    const [openDialog, setOpenDialog] = React.useState(true);
 
-    const handleClick = () => {
-        setOpen(true);
-    };
+    // const handleClick = () => {
+    //     setOpen(true);
+    // };
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -42,9 +44,13 @@ function NavBar() {
         setOpen(false);
     };
 
-    const okayThenClose = () => {
-        setOpen(false);
-    }
+    // const popOpen = () => {
+    //     setOpenDialog(true);
+    // };
+
+    const okayClose = () => {
+        setOpenDialog(false);
+    };
 
     const action = (
         <React.Fragment>
@@ -67,7 +73,6 @@ function NavBar() {
         const walletAvailability = async () => {
             if(!ethereum) {
                 setWalletAvail(false);
-                // add the add metamask button
             }
             setWalletAvail(true);
         };
@@ -95,44 +100,45 @@ function NavBar() {
         <Box>
             <AppBar>
                 <Toolbar>
-                    <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
+                    <Typography align='center' variant="h4" component="div" sx={{ flexGrow: 1 }}>
                         Monokeros
                     </Typography>
                     {walletAvail ? (
                         <div>
                             { isConnected ? (
                                 <Dialog
-                                    open={handleClick}
-                                    onClose={handleClose}
+                                    open={openDialog}
+                                    onClose={okayClose}
                                     aria-labelledby="alert-dialog-title"
                                     aria-describedby="alert-dialog-description"
                                 >
 
                                     <DialogContent>
-                                    <DialogContentText id="alert-dialog-description">
-                                        <h3>Wallet Address:</h3>
-                                        <p>
-                                            {accAddress.slice(0, 4)}...
-                                            {accAddress.slice(38, 42)}
-                                        </p>
-                                        <div className="card-row">
-                                            <h3>Wallet Balance:</h3>
-                                            <p>{accountBalance}</p>
-                                        </div>
-                                    </DialogContentText>
+                                        <DialogContentText id="alert-dialog-description">
+                                            <div>
+                                                <h3>Wallet Address:</h3>
+                                                <p>
+                                                    {accAddress.slice(0, 4)}...
+                                                    {accAddress.slice(38, 42)}
+                                                </p>
+                                            </div>
+                                            <div className="card-row">
+                                                <h3>Wallet Balance:</h3>
+                                                <p>{accountBalance}</p>
+                                            </div>
+                                        </DialogContentText>
                                     </DialogContent>
                                     <DialogActions>
-                                    <Button varient="outlined" onClick={okayThenClose}>Okay</Button>
+                                        <Button varient="outlined" onClick={okayClose}>Okay</Button>
                                     </DialogActions>
                                 </Dialog>
                             ) : (
-                                <Button align="end" color="inherit" onClick={connectWallet}>
+                                <Button align="end" color="inherit" onClick={connectWallet} >
                                     Login
                                 </Button>
                             )}
                             { isConnected ? (
                                 <div>
-                                    <NavTabs></NavTabs>
                                     <Snackbar
                                         open={open}
                                         autoHideDuration={6000}
@@ -155,34 +161,33 @@ function NavBar() {
                         </div>
                         ) : (
                             <div>
-                                {/* <Button variant="outlined" onClick={handleClick}>
-                                    Open alert dialog
-                                </Button> */}
                                     <Dialog
-                                        open={handleClick}
-                                        onClose={handleClose}
+                                        open={openDialog}
+                                        onClose={okayClose}
                                         aria-labelledby="alert-dialog-title"
                                         aria-describedby="alert-dialog-description"
                                     >
 
                                         <DialogContent>
-                                        <DialogContentText id="alert-dialog-description">
-                                            To fully utilise the application, please install Metamask.
-                                        </DialogContentText>
+                                            <DialogContentText id="alert-dialog-description">
+                                                To fully utilise the application, please install Metamask.
+                                            </DialogContentText>
                                         </DialogContent>
                                         <DialogActions>
-                                        <Button variant="outlined" onClick={handleClose}>Cancel</Button>
-                                        <a href={'https://metamask.io/'}>
-                                            <Button variant="outlined" onClick={handleClose} autoFocus>
-                                                 Download/Install
-                                            </Button>
-                                        </a>
+                                            <Button variant="outlined" onClick={okayClose}>Cancel</Button>
+                                            <a href={'https://metamask.io/'}>
+                                                <Button variant="outlined" onClick={okayClose} autoFocus>
+                                                    Download/Install
+                                                </Button>
+                                            </a>
                                         </DialogActions>
                                     </Dialog>
                                 </div>
                         )}
                 </Toolbar>
             </AppBar>
+            {/* <Slides></Slides> */}
+            <HomePage></HomePage>
         </Box>
     );
 
